@@ -1,0 +1,24 @@
+#basic_run_example_logic
+
+parameters: 
+
+- cloud: gcp, azure, aws
+
+- company: 1, 2
+
+- env: dev, stage, prod 
+
+run task_example: create new cloud kubernetes on azure specifically on dev for company 1 
+
+get_vars: dev_vars.yaml, company_1
+
+run layers: 
+
+- terraform_set_get_provider_$(cloud)
+  run: init_provider_main_commands_example
+
+- create network_$(layers.azure_layers_templates.tasklist)
+  enter vars: $(get_vars)
+
+- create kubernetes_$(layers.azure_layers_templates.tasklist)
+  enter vars: $(get_vars)
